@@ -102,3 +102,5 @@ dist
 
 # TernJS port file
 .tern-port
+api-backend/.vscode/launch.json
+api-backend/.vscode/tasks.json

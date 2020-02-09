@@ -11,6 +11,7 @@ services:
       PORT: 3000
     ports:
       - "3000:3000"
+      - "9228:9228"
     command: npm run dev
     volumes:
       - .:/app/
