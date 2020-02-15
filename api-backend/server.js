@@ -1,29 +1,12 @@
 const express = require('express');
-
-const morgan = require('morgan');
-const clientSession = require('client-sessions');
-const helmet = require('helmet');
-
-const {SESSION_SECRET} = require('./config');
-
-const app = express();
-const api = require('./src/api');
+const config = require('./config/config');
+const app = config.setUpServer();
+const con_string = process.env.DATABASE_URL;
+const pg = require('pg');
+const pg_client = new pg.Client(con_string);
 
 app.get('/', (req, res) => res.sendStatus(200));
 app.get('/health', (req, res) => res.sendStatus(200));
-
-app.use(morgan('short'));
-app.use(express.json());
-app.use(
-  clientSession({
-    cookieName: 'session',
-    secret: SESSION_SECRET,
-    duration: 24 * 60 * 60 * 1000
-  })
-);
-app.use(helmet());
-
-app.use(api);
 
 let server;
 module.exports = {
@@ -31,9 +14,29 @@ module.exports = {
     server = app.listen(port, () => {
       console.log(`App started on port ${port}`);
     });
+
+    const io = require('socket.io')(server);
+    pg_client.connect();
+    // const query = pg_client.query('LISTEN addedrecord');
+
+    io.on('connection', function(socket) {
+      console.log(socket);
+      console.log('ciaone');
+
+      socket.on('ready for data', function(data) {
+        console.log(data);
+        pg_client.on('notification', function(title) {
+          console.log(title);
+          socket.emit('update', {message: title});
+        });
+      });
+    });
+
     return app;
   },
   stop() {
     server.close();
-  }
+  },
 };
+
+
