@@ -39,9 +39,9 @@ describe('Download', () => {
     it('should not create a new download record for wrong input', (done) => {
       const reqBody = {
         latitude: '9,100',
-        longitude: '5,2100', 
-        appId: 'APP_ID', 
-        downloadedAt: '10/10/2020'
+        longitude: '5,2100',
+        appId: 'APP_ID',
+        downloadedAt: '10/10/2020',
       };
 
       chai.request(app)
