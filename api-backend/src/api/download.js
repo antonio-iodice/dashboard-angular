@@ -19,6 +19,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
+  console.log('BIIITCH');
   downloadService.getDownloadDataPromise()
       .then((result) => {
         res.json(result.rows);

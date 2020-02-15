@@ -5,11 +5,11 @@
   "description": "Starter project using Express and Postgres",
   "main": "config.js",
   "scripts": {
-    "test": "xo",
+    "test": "mocha src/tests/*.js --exit --timeout 10000",
     "lint": "xo",
     "format": "xo --fix",
-    "start": "node ./bin/start.js",
-    "dev": "nodemon  --inspect=0.0.0.0:9228 ./bin/start.js",
+    "start": "node server.js",
+    "dev": "nodemon  --inspect=0.0.0.0:9228 server.js",
     "migrate": "node ./bin/migrate.js",
     "migrate:create": "migrate create --migrations-dir='./src/migrations'"
   },
@@ -17,7 +17,7 @@
     "express",
     "postgres"
   ],
-  "author": "Hugo Di Francesco",
+  "author": "Antonio Iodice",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^3.0.6",
