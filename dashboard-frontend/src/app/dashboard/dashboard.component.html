@@ -3,6 +3,8 @@
   {{ element.id }}
 </div> -->
 
+<app-filter></app-filter>
+
 <div style="display: block" *ngIf="barChartData.length"> 
   <canvas baseChart
           [datasets]="barChartData"
