@@ -1,18 +1,7 @@
-<p>dashboard works!</p>
-<!-- <div *ngFor="let element of dataPoints | async">
-  {{ element.id }}
-</div> -->
+<div class="dashboard-container">
+  <app-filter></app-filter>
 
-<app-filter></app-filter>
-
-<div style="display: block" *ngIf="barChartData.length"> 
-  <canvas baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType">
-  </canvas>
+  <app-chart></app-chart>
+  
+  <app-counter></app-counter>
 </div>
-
-<app-counter></app-counter>

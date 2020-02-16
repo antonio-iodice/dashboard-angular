@@ -1,5 +1,8 @@
-<div *ngIf="items | async as elements">
-  <span>
+<div class="counter-container" *ngIf="items | async as elements">
+  <div>
+    Total for period
+  </div>
+  <div>
     {{ elements.length }}
-  </span>
+  </div>
 </div>

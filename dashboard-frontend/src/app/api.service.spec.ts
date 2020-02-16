@@ -1,10 +1,8 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { environment } from 'src/environments/environment.prod';
-
-import { AppComponent } from '../app.component';
 import { ApiService } from './api.service';
+import { AppComponent } from './app.component';
 
 describe('ApiService', () => {
 
@@ -31,7 +29,7 @@ describe('ApiService', () => {
   });
 
   it('should perform get calls', () => {
-    const endpoint = `${environment.baseUrl}/${environment.contextPath}/api/me.json`;
+    const endpoint = `/api/download.json`;
     service.getApi(endpoint).subscribe(response => {
       expect(response).toBeTruthy();
     });
@@ -42,7 +40,7 @@ describe('ApiService', () => {
   });
 
   it('should perform post calls', () => {
-    const endpoint = `${environment.baseUrl}/${environment.contextPath}/api/me.json`;
+    const endpoint = `/download/me.json`;
     service.postApi(endpoint, {}).subscribe(response => {
       expect(response).toBeTruthy();
     });

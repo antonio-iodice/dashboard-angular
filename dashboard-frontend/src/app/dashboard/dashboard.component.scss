@@ -1,0 +1,10 @@
+.dashboard-container {
+  display: flex;
+  flex-flow: column wrap;
+  padding: 10px;
+}
+
+app-filter, app-counter {
+  display: flex;
+  justify-content: center;
+}
