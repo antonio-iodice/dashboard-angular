@@ -8,21 +8,32 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { FormsModule } from '@angular/forms';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { MapComponent } from './map/map.component';
+import { ChartsModule } from 'ng2-charts';
+import { DatePipe } from '@angular/common';
+import { CounterComponent } from './counter/counter.component';
 
 const config: SocketIoConfig = { url: environment.endpoint, options: {} };
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    MapComponent,
+    CounterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ChartsModule,
     FormsModule,
     HttpClientModule,
+    HighchartsChartModule,
 	  SocketIoModule.forRoot(config)
   ],
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
