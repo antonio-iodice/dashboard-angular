@@ -3,8 +3,8 @@ import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs/internal/Observable';
-import { switchMap, scan, map } from 'rxjs/operators';
-import { merge, BehaviorSubject } from 'rxjs';
+import { scan, map } from 'rxjs/operators';
+import { merge, BehaviorSubject, combineLatest, ReplaySubject } from 'rxjs';
 
 const ENDPOINT = `${environment.endpoint}/api/download`;
 
@@ -19,44 +19,62 @@ interface InsertEvent {
 })
 export class DataService {
 
-  dateStart: BehaviorSubject<Date>;
-  dateEnd: BehaviorSubject<Date>;
+  dateStart = new ReplaySubject<Date>(1);
+  dateEnd = new ReplaySubject<Date>(1);
 
   currentData: Observable<any>;
   allData: Observable<any>;
+  filteredValues: Observable<any>;
   updates = this.socket.fromEvent<InsertEvent>('update');
 
   constructor(
     private apiService: ApiService,
     private socket: Socket
     ) {
-    this.createFilterDates();
     this.init(socket);
   }
 
-  private createFilterDates() {
-    this.dateEnd = new BehaviorSubject(new Date());
-    let start = new Date();
-    start.setMonth(start.getMonth() - 6);
-    this.dateStart = new BehaviorSubject(start);
+  private init(socket: Socket) {
+    this.createFilterDates();
+    const updatesCorrected = this.setUpSocket(socket);
+    this.setUpFilters(updatesCorrected);
   }
 
-  private init(socket: Socket) {
+  private createFilterDates() {
+    this.dateEnd.next(new Date());
+    const start = new Date();
+    start.setMonth(start.getMonth() - 6);
+    this.dateStart.next(start);
+  }
+
+  private setUpFilters(updatesCorrected: Observable<any>) {
+    this.allData = merge(this.currentData, updatesCorrected).pipe(scan((acc, curr) => { return [...acc, curr]; }));
+    this.filteredValues = this.getFilteredValues();
+  }
+
+  private setUpSocket(socket: Socket) {
     this.currentData = this.apiService.getApi(ENDPOINT);
     this.currentData.subscribe(x => {
-      console.log(x);
       socket.emit('ready for data', 'READY');
-    })
+    });
 
-    const updatesCorrected = this.updates.pipe(
-      map(update => {
-        return JSON.parse(update.message.payload);
+    this.updates.subscribe(x => console.log(x)); // TO BE REMOVED: Only for debugging
+    return this.updates.pipe(map(update => {
+      return JSON.parse(update.message.payload);
+    }));
+  }
+
+  private getFilteredValues() {
+    return combineLatest(
+      this.dateStart,
+      this.dateEnd,
+      this.allData
+    ).pipe(
+      map(([start, end, data]) => {
+        return data.filter(item => {
+          return new Date(item.downloaded_at) >= start && new Date(item.downloaded_at) <= end;
+        })
       })
-    )
-    this.updates.subscribe(x => console.log(x));
-
-    this.allData = merge(this.currentData, updatesCorrected).pipe(
-      scan((acc, curr) => { return [...acc, curr] })
     );
   }
 

@@ -1,8 +1,20 @@
 
-  <input matInput [matDatepicker]="datePickerStart" [value]="dateStart">
-  <mat-datepicker-toggle matSuffix [for]="datePickerStart"></mat-datepicker-toggle>
-  <mat-datepicker #datePickerStart></mat-datepicker>
+  <span>
+    <input matInput 
+      [min]="minDate" [max]="maxDate"
+      [matDatepicker]="datePickerStart" 
+      (dateInput)="valueStartChanged('input', $event)" 
+      [value]="dateStart">
+    <mat-datepicker-toggle matSuffix [for]="datePickerStart"></mat-datepicker-toggle>
+    <mat-datepicker #datePickerStart></mat-datepicker>
+  </span>
 
-  <input matInput [matDatepicker]="datePickerEnd" [value]="dateEnd">
-  <mat-datepicker-toggle matSuffix [for]="datePickerEnd"></mat-datepicker-toggle>
-  <mat-datepicker #datePickerEnd></mat-datepicker>
+  <span>
+    <input matInput 
+    [min]="minDate" [max]="maxDate"
+    [matDatepicker]="datePickerEnd" 
+    (dateInput)="valueEndChanged('input', $event)" 
+    [value]="dateEnd">
+    <mat-datepicker-toggle matSuffix [for]="datePickerEnd"></mat-datepicker-toggle>
+    <mat-datepicker #datePickerEnd></mat-datepicker>
+  </span>
