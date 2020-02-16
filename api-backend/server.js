@@ -15,10 +15,10 @@ server = app.listen(port, () => {
 
 const io = require('socket.io')(server);
 pgClient.connect();
+pgClient.query('LISTEN addedrecord');
 
 io.on('connection', function(socket) {
   console.log(socket);
-  console.log('ciaone');
 
   socket.on('ready for data', function(data) {
     console.log(data);
