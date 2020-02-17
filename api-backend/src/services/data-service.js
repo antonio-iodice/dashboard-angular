@@ -15,7 +15,7 @@ class DataService {
   constructor() {}
 
   async createDownloadData(body) {
-    const {latitude, longitude, appId, downloadedAt} = body.data;
+    const { latitude, longitude, appId, downloadedAt } = body.data;
     const download = this._validateData(
         new Download(latitude, longitude, appId, downloadedAt),
     );
@@ -24,7 +24,7 @@ class DataService {
       download.latitude,
       download.longitude,
       download.appId,
-      download.downloadedgAt,
+      download.downloadedAt,
       country,
     ];
 
@@ -41,20 +41,26 @@ class DataService {
   }
 
   _retrieveCountry(latitude, longitude) {
-    return wc([
-      Number.parseFloat(latitude),
-      Number.parseFloat(longitude)
-    ]) || 'UNKNOWN';
+    return (
+      wc([Number.parseFloat(latitude), Number.parseFloat(longitude)]) ||
+      'UNKNOWN'
+    );
   }
 
   _validateData(data) {
-    if (!data.latitude || !data.longitude ||
-        !data.appId || !data.downloadedAt) {
+    if (
+      !data.latitude ||
+      !data.longitude ||
+      !data.appId ||
+      !data.downloadedAt
+    ) {
       throw new ErrorHandler(403, 'All fields are mandatory');
     }
 
-    if (!this._isCoordinate(data.latitude) ||
-        !this._isCoordinate(data.longitude)) {
+    if (
+      !this._isCoordinate(data.latitude) ||
+      !this._isCoordinate(data.longitude)
+    ) {
       throw new ErrorHandler(403, 'Please send valid coordinates');
     }
 
@@ -71,10 +77,17 @@ class DataService {
   }
 
   _isValidDate(value) {
-    console.log(value);
-    const timestamp = Date.parse(value);
-    console.log(timestamp);
-    return !isNaN(timestamp);
+    if (!value) return false;
+    const parms = value.split(/[\.\-\/]/);
+    const yyyy = parseInt(parms[2], 10);
+    const mm = parseInt(parms[1], 10);
+    const dd = parseInt(parms[0], 10);
+    const date = new Date(yyyy, mm - 1, dd, 0, 0, 0, 0);
+    return (
+      mm === date.getMonth() + 1 &&
+      dd === date.getDate() &&
+      yyyy === date.getFullYear()
+    );
   }
 }
 
