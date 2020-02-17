@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS downloaddata(
     latitude character varying(128),
     longitude character varying(128),
     app_id character varying(128),
+    country character varying(128),
     downloaded_at date
 );
 

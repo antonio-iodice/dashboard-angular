@@ -4,7 +4,7 @@ const { Router } = express;
 const router = new Router();
 const clientSession = require('client-sessions');
 const cors = require('cors');
-const whitelist = ['http://localhost:4200', 'http://localhost:3000', '*'];
+// const whitelist = ['http://localhost:4200', 'http://localhost:3000', '*'];
 const {SESSION_SECRET} = require('../../config');
 
 const download = require('./download');

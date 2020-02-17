@@ -1,29 +1,35 @@
+const wc = require('which-country');
+const connString = process.env.DATABASE_URL;
+const pg = require('pg');
+const pgClient = new pg.Client(connString);
+pgClient.connect();
+
 const { ErrorHandler } = require('../helpers/errors');
 const { Download } = require('../models/download');
 const query = { text: 'SELECT * FROM downloaddata' };
 const text = `INSERT INTO 
-              downloaddata(latitude, longitude, app_id, downloaded_at) 
-              VALUES($1, $2, $3, $4) RETURNING *`;
+              downloaddata(latitude, longitude, app_id, downloaded_at, country) 
+              VALUES($1, $2, $3, $4, $5) RETURNING *`;
 
 class DownloadService {
-  constructor(client) {
-    this.client = client;
-  }
+  constructor() {}
 
   async createDownloadData(body) {
     const {latitude, longitude, appId, downloadedAt} = body.data;
     const download = this._validateData(
         new Download(latitude, longitude, appId, downloadedAt),
     );
+    const country = this._retrieveCountry(latitude, longitude);
     const values = [
       download.latitude,
       download.longitude,
       download.appId,
-      download.downloadedAt,
+      download.downloadedgAt,
+      country,
     ];
 
     try {
-      return this.client.query(text, values);
+      return pgClient.query(text, values);
     } catch (error) {
       console.error(error);
       return new ErrorHandler(500, 'The message could not be saved');
@@ -31,7 +37,14 @@ class DownloadService {
   }
 
   getDownloadDataPromise() {
-    return this.client.query(query);
+    return pgClient.query(query);
+  }
+
+  _retrieveCountry(latitude, longitude) {
+    return wc([
+      Number.parseFloat(latitude),
+      Number.parseFloat(longitude)
+    ]) || 'UNKNOWN';
   }
 
   _validateData(data) {

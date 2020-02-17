@@ -2,12 +2,7 @@ const {Router} = require('express');
 const DownloadService = require('../services/download-service');
 
 const router = new Router();
-
-const connString = process.env.DATABASE_URL;
-const pg = require('pg');
-const pgClient = new pg.Client(connString);
-pgClient.connect();
-const downloadService = new DownloadService(pgClient);
+const downloadService = new DownloadService();
 
 router.post('/', async (req, res, next) => {
   try {
