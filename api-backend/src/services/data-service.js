@@ -11,7 +11,7 @@ const text = `INSERT INTO
               downloaddata(latitude, longitude, app_id, downloaded_at, country) 
               VALUES($1, $2, $3, $4, $5) RETURNING *`;
 
-class DownloadService {
+class DataService {
   constructor() {}
 
   async createDownloadData(body) {
@@ -78,4 +78,4 @@ class DownloadService {
   }
 }
 
-module.exports = DownloadService;
+module.exports = DataService;

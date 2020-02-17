@@ -1,12 +1,12 @@
 const {Router} = require('express');
-const DownloadService = require('../services/download-service');
+const DataService = require('../services/data-service');
 
 const router = new Router();
-const downloadService = new DownloadService();
+const dataService = new DataService();
 
 router.post('/', async (req, res, next) => {
   try {
-    const result = await downloadService.createDownloadData(req.body);
+    const result = await dataService.createDownloadData(req.body);
     return res.json(result.rows);
   } catch (error) {
     next(error);
@@ -14,7 +14,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
-  downloadService.getDownloadDataPromise()
+  dataService.getDownloadDataPromise()
       .then((result) => {
         res.json(result.rows);
       })
