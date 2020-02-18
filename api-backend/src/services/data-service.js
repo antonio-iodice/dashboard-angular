@@ -73,7 +73,9 @@ class DataService {
   }
 
   _isCoordinate(lat) {
-    return lat.match(/^([1-8]?[1-9]|[1-9]0)\,{1}\d{1,6}/);
+    const latCheck = /^(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)$/;
+    const longCheck = /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)$/;
+    return latCheck.test(lat) || longCheck.test(lat);
   }
 
   _isValidDate(value) {

@@ -18,6 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ChartComponent } from './chart/chart.component';
 import { HeaderComponent } from './header/header.component';
+import { PieComponent } from './pie/pie.component';
 
 const config: SocketIoConfig = { url: environment.endpoint, options: {} };
 @NgModule({
@@ -27,7 +28,8 @@ const config: SocketIoConfig = { url: environment.endpoint, options: {} };
     CounterComponent,
     FilterComponent,
     ChartComponent,
-    HeaderComponent
+    HeaderComponent,
+    PieComponent
   ],
   imports: [
     BrowserModule,
