@@ -14,7 +14,7 @@ export class CounterComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.items = this.dataService.filteredValues;
+    this.items = this.dataService.getFilteredValues();
   }
 
 }

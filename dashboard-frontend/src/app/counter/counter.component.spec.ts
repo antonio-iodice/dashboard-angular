@@ -15,12 +15,12 @@ describe('CounterComponent', () => {
   //   deleteApi: of()
   // });
 
-  const dataServiceSpy = {
-    filteredValues: of([
+  const dataServiceSpy = jasmine.createSpyObj('DataService', {
+    getFilteredValues: of([
       {'appId': 'APP_ID'},
       {'appId': 'APP_ID'}
     ])
-  }
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

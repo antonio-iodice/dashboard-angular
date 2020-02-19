@@ -23,9 +23,8 @@ export class DataService {
   dateEnd = new ReplaySubject<Date>(1);
 
   currentData: Observable<any>;
-  allData: Observable<any>;
-  filteredValues: Observable<any>;
   updates = this.socket.fromEvent<InsertEvent>('update');
+  private filteredValues: Observable<any>;
 
   constructor(
     private apiService: ApiService,
@@ -35,21 +34,18 @@ export class DataService {
   }
 
   private init(socket: Socket) {
-    this.createFilterDates();
-    const updatesCorrected = this.setUpSocket(socket);
-    this.setUpFilters(updatesCorrected);
+    this.createDefaultFilterDates();
+    this.setUpSocket(socket);
+    this.setUpFilters();
   }
 
-  private createFilterDates() {
-    this.dateEnd.next(new Date());
+  private createDefaultFilterDates() {
+    const end = new Date();
     const start = new Date();
     start.setMonth(start.getMonth() - 6);
-    this.dateStart.next(start);
-  }
 
-  private setUpFilters(updatesCorrected: Observable<any>) {
-    this.allData = merge(this.currentData, updatesCorrected).pipe(scan((acc, curr) => { return [...acc, curr]; }));
-    this.filteredValues = this.getFilteredValues();
+    this.dateStart.next(start);
+    this.dateEnd.next(end);
   }
 
   private setUpSocket(socket: Socket) {
@@ -57,18 +53,25 @@ export class DataService {
     this.currentData.subscribe(x => {
       socket.emit('ready for data', 'READY');
     });
-
-    this.updates.subscribe(x => console.log(x)); // TO BE REMOVED: Only for debugging
-    return this.updates.pipe(map(update => {
-      return JSON.parse(update.message.payload);
-    }));
   }
 
-  private getFilteredValues() {
+  private setUpFilters() {
+    const mappedUpdates = this.updates.pipe(map(update => {
+      return JSON.parse(update.message.payload);
+    }));
+    const mergedData = merge(this.currentData, mappedUpdates).pipe(
+      scan((acc, curr) => { 
+        return [...acc, curr]; 
+      }));
+
+    this.filteredValues = this.createFilteredValues(mergedData);
+  }
+
+  private createFilteredValues(mergedData: Observable<any>) {
     return combineLatest(
       this.dateStart,
       this.dateEnd,
-      this.allData
+      mergedData
     ).pipe(
       map(([start, end, data]) => {
         return data.filter(item => {
@@ -76,6 +79,10 @@ export class DataService {
         })
       })
     );
+  }
+
+  getFilteredValues(): Observable<any> {
+    return this.filteredValues;
   }
 
 }
