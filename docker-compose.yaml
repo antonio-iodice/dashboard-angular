@@ -1,0 +1,41 @@
+# docker-compose.yml
+version: "3"
+services:
+  web:
+    build: dashboard-frontend
+    depends_on:
+      - app
+    command: npm run dev
+    ports: 
+      - "4200:4200"
+      - "49153:49153"
+    volumes:
+      - /web/node_modules
+      - ./dashboard-frontend:/web
+
+  app:
+    build: api-backend
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://user:pass@postgres:5432/db
+      NODE_ENV: development
+      PORT: 3000
+    ports:
+      - "3000:3000"
+      - "9228:9228"
+    command: npm run dev
+    volumes:
+      - ./api-backend:/app/
+      - /app/node_modules
+
+  postgres:
+    image: timescale/timescaledb:latest-pg10
+    ports:
+      - "35432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
+    volumes:
+      - ./api-backend/init.sql:/docker-entrypoint-initdb.d/init.sql
