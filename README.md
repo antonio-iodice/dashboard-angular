@@ -21,6 +21,12 @@ Checkout or download the project and run the following command in the folder whe
 docker-compose up
 ```
 
+By default the app runs on port 4200, so to use it just type the following address on your browser.
+
+```
+http://localhost:4200
+```
+
 ## Adding new data
 
 In order to see live data appear in the dashboard you can POST new info to the backend at the following endpoint.
