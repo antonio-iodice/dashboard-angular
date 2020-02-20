@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs/internal/Observable';
 import { scan, map } from 'rxjs/operators';
-import { merge, BehaviorSubject, combineLatest, ReplaySubject } from 'rxjs';
+import { merge, combineLatest, ReplaySubject } from 'rxjs';
 
 const ENDPOINT = `${environment.endpoint}/api/download`;
 
