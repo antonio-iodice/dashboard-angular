@@ -1,4 +1,5 @@
-<div style="display: block" *ngIf="barChartData.length"> 
+<h1>Download Data By Period and App Version</h1>
+<div class="chart-container" *ngIf="barChartData.length"> 
   <canvas baseChart
           [datasets]="barChartData"
           [labels]="barChartLabels"
