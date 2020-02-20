@@ -8,6 +8,19 @@ CREATE TABLE IF NOT EXISTS downloaddata(
     downloaded_at date
 );
 
+insert into downloaddata values (default, 'TestData', '10.000', '11.920230', 'APP_IOS', 'GRB', '10/10/2019');
+insert into downloaddata values (default, 'TestData', '10.000', '11.920230', 'APP_IOS', 'GRB', '10/10/2019');
+insert into downloaddata values (default, 'TestData', '10,000', '11.920230', 'APP_IOS', 'GRB', '10/10/2019');
+insert into downloaddata values (default, 'TestData', '10,000', '11.920230', 'APP_IOS', 'GRB', '10/10/2019');
+insert into downloaddata values (default, 'TestData', '-0.127758', '40.507351', 'APP_IOS', 'ITA', '10/10/2019');
+insert into downloaddata values (default, 'TestData', '-0.127758', '40.507351', 'APP_IOS', 'ITA', '10/10/2019');
+insert into downloaddata values (default, 'TestData', '-0.127758', '40.507351', 'APP_ANDROID', 'GRB', '01/01/2020');
+insert into downloaddata values (default, 'TestData', '-0.127758', '40.507351', 'APP_ANDROID', 'GRB', '02/02/2020');
+insert into downloaddata values (default, 'TestData', '10.01', '40.507351', 'APP_ANDROID', 'ITA', '02/02/2020');
+insert into downloaddata values (default, 'TestData', '10.01', '40.507351', 'APP_ANDROID', 'ITA', '02/02/2020');
+insert into downloaddata values (default, 'TestData', '-0.127758', '40.507351', 'APP_ANDROID', 'GRB', '03/03/2020');
+insert into downloaddata values (default, 'TestData', '-0.127758', '40.507351', 'APP_ANDROID', 'GRB', '03/03/2020');
+
 CREATE OR REPLACE FUNCTION notify_realtime() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
