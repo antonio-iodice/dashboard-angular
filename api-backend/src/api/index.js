@@ -4,7 +4,6 @@ const { Router } = express;
 const router = new Router();
 const clientSession = require('client-sessions');
 const cors = require('cors');
-// const whitelist = ['http://localhost:4200', 'http://localhost:3000', '*'];
 const {SESSION_SECRET} = require('../../config');
 
 const download = require('./download');
@@ -32,13 +31,6 @@ router.use(function(req, res, next) {
 
 const corsOptions = {
   credentials: true,
-  // origin: (origin, callback) => {
-  //   if (whitelist.includes(origin)) {
-  //     return callback(null, true);
-  //   }
-
-  //   callback(new Error('Not allowed by CORS'));
-  // },
 };
 
 router.use(cors(corsOptions));
