@@ -1,6 +1,6 @@
 # Live Dashboard
 
-This is a sample project to display live data.
+This is a sample project to display live data. The project was built using a PostgreSQL database and an Express.js backend server. The web page was built using Angular and ng2-charts. The communication between the frontend and backend has been handled with a WebSocket connection using the Socket.io library.
 
 ## Getting Started
 
@@ -29,7 +29,8 @@ http://localhost:4200
 
 ## Adding new data
 
-In order to see live data appear in the dashboard you can POST new info to the backend at the following endpoint.
+On first start the database is already populated with some sample data by an initialization script. However, it is possible to add new data and see it appear it live on the dashboard. 
+In order to add and see live data you can POST new info to the backend at the following endpoint.
 
 ```
 POST http://localhost:3000/api/download
@@ -52,6 +53,7 @@ Example data:
 * [Angular](https://angular.io) - Frontend
 * [Express.js](https://expressjs.com) - Backend
 * [PostgreSQL](https://www.postgresql.org) - Database
+* [Socket.io](https://socket.io) - Socket Communication
 
 
 ## License
