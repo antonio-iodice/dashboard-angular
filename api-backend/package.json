@@ -28,7 +28,7 @@
     "migrate": "^1.6.2",
     "morgan": "^1.9.1",
     "pg": "^7.18.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "sql-template-strings": "^2.2.2",
     "uuid": "^3.3.2",
     "which-country": "^1.0.0"
