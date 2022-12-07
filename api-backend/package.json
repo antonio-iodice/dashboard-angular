@@ -23,7 +23,7 @@
     "bcrypt": "^5.0.0",
     "client-sessions": "^0.8.0",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "helmet": "^3.16.0",
     "migrate": "^1.6.2",
     "morgan": "^1.9.1",
